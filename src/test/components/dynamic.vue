@@ -13,22 +13,22 @@
 </template>
 
 <script>
-  import dynamic1 from './dynamic1'
-  import dynamic2 from './dynamic2'
-  export default {
-    data(){
-      return {
-        componentId:''
-      }
-    },
-    methods:{
-      showDynamic2(){
-        this.componentId = dynamic2
-      }
-    },
-    components:{
-      dynamic1,
-      dynamic2
+import dynamic1 from './dynamic1'
+import dynamic2 from './dynamic2'
+export default {
+  data () {
+    return {
+      componentId: ''
     }
+  },
+  methods: {
+    showDynamic2 () {
+      this.componentId = dynamic2
+    }
+  },
+  components: {
+    dynamic1,
+    dynamic2
   }
+}
 </script>

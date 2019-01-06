@@ -22,11 +22,11 @@
 
 <script>
 export default {
-  data(){
-        return {
-          username:'段子黄',
-          // url:'http://www.baidu.com'
-        }
+  data () {
+    return {
+      username: '段子黄'
+      // url:'http://www.baidu.com'
+    }
   }
 }
 </script>

@@ -13,22 +13,22 @@
     </div>
   </template>
 
-  <script>
-    import todo_slot from './todo_slot'
+<script>
+import todo_slot from './todo_slot'
 
-    export default {
-      components:{
-        todo_slot
-      },
-      data(){
-        return {
-          todos:[
-            {id:1,text:'吃饭',isComplete:true},
-            {id:2,text:'睡觉',isComplete:false},
-            {id:3,text:'打豆豆',isComplete:true},
-            {id:4,text:'玩手机',isComplete:true}
-          ]
-        }
-      }
+export default {
+  components: {
+    todo_slot
+  },
+  data () {
+    return {
+      todos: [
+        { id: 1, text: '吃饭', isComplete: true },
+        { id: 2, text: '睡觉', isComplete: false },
+        { id: 3, text: '打豆豆', isComplete: true },
+        { id: 4, text: '玩手机', isComplete: true }
+      ]
     }
-  </script>
+  }
+}
+</script>

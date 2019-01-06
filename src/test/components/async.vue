@@ -10,12 +10,12 @@
 </template>
 
 <script>
-  import Vue from 'vue' /**'./my-async-component')
+import Vue from 'vue' /** './my-async-component')
   )
   **/
 
-  // 直接定义
-  /**
+// 直接定义
+/**
   Vue.component('async-example', function (resolve, reject) {
     setTimeout(function () {
       // 向 `resolve` 回调传递组件定义
@@ -29,8 +29,8 @@
   })
   **/
 
-  // 导入异步组件1
-  /**
+// 导入异步组件1
+/**
   Vue.component('async-webpack-example', function (resolve) {
     // 这个特殊的 `require` 语法将会告诉 webpack
     // 自动将你的构建代码切割成多个包，这些包
@@ -39,8 +39,8 @@
   })
   */
 
-  //导入异步组件1
-  /**
+// 导入异步组件1
+/**
   Vue.component(
     'async-webpack-example',
     // 这个 `import` 函数会返回一个 `Promise` 对象。
@@ -63,7 +63,7 @@
   })
   **/
 
-  /**
+/**
   const FooComponent = {
     template:'<div>。。。我是异步组件啦。。。</div>'
   }
@@ -77,14 +77,14 @@
    })
    **/
 
-  const Foo = () =>
+const Foo = () =>
     import(/* webpackChunkName: "my-component123" */ './my-async-component')
 
-  export default {
-    components: {
-      // 'my-component': () => import(/* webpackChunkName: "my-component" */'./my-async-component')
-      // 'my-component':AsyncComponent
-      'my-component': Foo
-    }
+export default {
+  components: {
+    // 'my-component': () => import(/* webpackChunkName: "my-component" */'./my-async-component')
+    // 'my-component':AsyncComponent
+    'my-component': Foo
   }
+}
 </script>

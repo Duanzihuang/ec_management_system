@@ -14,7 +14,7 @@ import myMixins from '../mixins/'
 
 export default {
   mixins: [myMixins],
-  created() {
+  created () {
     console.log('组件钩子被调用')
     console.log(this.$data)
   },

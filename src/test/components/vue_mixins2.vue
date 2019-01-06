@@ -9,14 +9,14 @@
 import myMixins from '../mixins/'
 
 export default {
-  data(){
+  data () {
     return {
       message: 'goodbye',
       bar: 'def'
     }
   },
   mixins: [myMixins],
-  created() {
+  created () {
     console.log(this.$data)
   }
 }

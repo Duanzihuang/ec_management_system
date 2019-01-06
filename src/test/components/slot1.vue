@@ -9,10 +9,10 @@
 </template>
 
 <script>
-  import slot_common from './slot_common'
-  export default {
-    components:{
-      slot_common
-    }
+import slot_common from './slot_common'
+export default {
+  components: {
+    slot_common
   }
+}
 </script>

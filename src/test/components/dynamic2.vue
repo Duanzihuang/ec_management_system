@@ -4,14 +4,14 @@
     </div>
   </template>
 
-  <script>
-      export default{
-        name:'dynamic2',
-        created() {
-          console.log('---2 created---')
-        },
-        beforeDestroy() {
-          console.log('---2 beforeDestroy---')
-        },
-      }
-    </script>
+<script>
+export default {
+  name: 'dynamic2',
+  created () {
+    console.log('---2 created---')
+  },
+  beforeDestroy () {
+    console.log('---2 beforeDestroy---')
+  }
+}
+</script>

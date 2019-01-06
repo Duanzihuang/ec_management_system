@@ -47,7 +47,7 @@ const router = new Router({
       path: '/slot4',
       component: slot4
     },
-    //测试动态&异步组件
+    // 测试动态&异步组件
     {
       path: '/dynamic',
       component: dynamic

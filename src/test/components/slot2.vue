@@ -21,17 +21,17 @@
     </div>
   </template>
 
-  <script>
-    import slot_common from './slot_common'
-    export default {
-      data(){
-        return {
-          username:'段子黄666',
-          url:'http://www.baidu.com'
-        }
-      },
-      components:{
-        slot_common
-      }
+<script>
+import slot_common from './slot_common'
+export default {
+  data () {
+    return {
+      username: '段子黄666',
+      url: 'http://www.baidu.com'
     }
-  </script>
+  },
+  components: {
+    slot_common
+  }
+}
+</script>
