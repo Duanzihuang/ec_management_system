@@ -20,14 +20,20 @@
           <template slot="title">
             <i class="el-icon-location"></i> <span>用户管理</span>
           </template>
-          <el-menu-item index="/layout/user">用户列表</el-menu-item>
+          <el-menu-item index="/layout/user">
+            <i class="el-icon-menu"></i>用户列表
+          </el-menu-item>
         </el-submenu>
         <el-submenu index="2">
           <template slot="title">
             <i class="el-icon-location"></i> <span>权限管理</span>
           </template>
-          <el-menu-item index="2-1">角色列表</el-menu-item>
-          <el-menu-item index="2-2">权限列表</el-menu-item>
+          <el-menu-item index="/layout/roles">
+            <i class="el-icon-menu"></i>角色列表
+          </el-menu-item>
+          <el-menu-item index="/layout/rights">
+            <i class="el-icon-menu"></i>权限列表
+          </el-menu-item>
         </el-submenu>
         <el-submenu index="3">
           <template slot="title">
