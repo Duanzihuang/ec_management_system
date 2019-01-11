@@ -4,6 +4,7 @@
       <!-- 图标 -->
       <div class="logo"></div>
       <!-- 菜单项 -->
+      <!--
       <el-menu
         router
         default-active="/layout/user"
@@ -44,6 +45,36 @@
           <el-menu-item index="3-3">商品参数</el-menu-item>
         </el-submenu>
       </el-menu>
+      -->
+      <el-menu
+        router
+        default-active="/layout/user"
+        :collapse="isCollapse"
+        :unique-opened="true"
+        class="el-menu-vertical-demo"
+        @open="handleOpen"
+        @close="handleClose"
+        background-color="#545c64"
+        text-color="#fff"
+        active-text-color="#ffd04b"
+      >
+        <el-submenu
+          v-for="item in menus"
+          :key="item.id"
+          :index="item.authName"
+        >
+          <template slot="title">
+            <i class="el-icon-location"></i> <span>{{item.authName}}</span>
+          </template>
+          <el-menu-item
+            v-for="subitem in item.children"
+            :key="subitem.id"
+            :index="'/layout/'+subitem.path"
+          >
+            <i class="el-icon-menu"></i>{{subitem.authName}}
+          </el-menu-item>
+        </el-submenu>
+      </el-menu>
     </el-aside>
     <el-container>
       <el-header>
@@ -70,8 +101,12 @@
 export default {
   data() {
     return {
-      isCollapse: false
+      isCollapse: false, //是否折叠
+      menus: [] //菜单列表
     }
+  },
+  created() {
+    this.getMenusData()
   },
   methods: {
     handleOpen() {
@@ -95,6 +130,11 @@ export default {
           this.$router.push('/login')
         })
         .catch(() => {})
+    },
+    async getMenusData() {
+      const res = await this.$axios.get('menus')
+
+      this.menus = res.data.data
     }
   }
 }

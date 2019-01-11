@@ -34,7 +34,7 @@ const router = new Router({
           component: welcome
         },
         {
-          path: 'user',
+          path: 'users',
           component: user
         },
         {
