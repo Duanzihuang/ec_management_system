@@ -1,10 +1,11 @@
 <template>
   <el-table
+    v-loading="loading"
     :data="data"
     border
     :row-style="showRow">
-    <el-table-column v-for="(column, index) in columns" :width="column.width" :key="column.dataIndex"
-      :label="column.text">
+    <el-table-column v-for="(column, index) in columns" :width="column.width" :key="index"
+      :label="column.label">
       <template slot-scope="scope">
         <span v-if="spaceIconShow(index)" :key='item' v-for="item in scope.row._level" class="ms-tree-space"></span>
         <el-button type="success" plain size="mini" round v-if="toggleIconShow(index,scope.row)" @click="toggle(scope.$index)">
@@ -15,7 +16,7 @@
           <i class="el-icon-minus"></i>
         </el-button>
         <span v-else-if="index===0" class="ms-tree-space"></span>
-        {{scope.row[column.dataIndex]}}
+        {{scope.row[column.prop]}}
       </template>
     </el-table-column>
     <el-table-column label="操作" v-if="treeType === 'normal'" width="160">
@@ -30,10 +31,14 @@
 export default {
   name: 'tree-grid',
   props: {
+    loading:{
+      type: Boolean,
+      default:false
+    },
     treeStructure: {
       type: Boolean,
       default: function () {
-        return false
+        return true
       }
     },
     columns: {
@@ -133,7 +138,7 @@ export default {
     },
     getCateInfoById (row) {
       // 根据ID查询分类信息
-      this.$emit('showForm', row.cat_id)
+      this.$emit('showForm', {cat_id:row.cat_id,cat_name:row.cat_name})
     },
     deleteCategory (row) {
       // 删除分类
