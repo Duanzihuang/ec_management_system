@@ -4,11 +4,14 @@ import login from '../views/account/login'
 import layout from '../views/layout/layout'
 import welcome from '@/views/welcome/welcome'
 import user from '../views/user/user'
-import goodslist from '../views/goods/goodslist'
 import rights from '../views/rights/rights'
 import roles from '../views/roles/roles'
 import category from '../views/goods/category'
 import params from '../views/goods/params'
+import goods from '../views/goods/goods'
+import goodslist from '../views/goods/goodslist'
+import addgoods from '../views/goods/addgoods'
+import editgoods from '../views/goods/editgoods'
 
 Vue.use(Router)
 
@@ -40,10 +43,6 @@ const router = new Router({
           component: user
         },
         {
-          path: 'goodslist',
-          component: goodslist
-        },
-        {
           path: 'rights',
           component: rights
         },
@@ -58,6 +57,25 @@ const router = new Router({
         {
           path: 'params',
           component: params
+        },
+        {
+          path: 'goods',
+          component: goods,
+          children: [
+            {
+              path: '',
+              component: goodslist
+            },
+            {
+              path: 'addgoods',
+              name:'addgoods',
+              component: addgoods
+            },
+            {
+              path: 'eidtgoods',
+              component: editgoods
+            }
+          ]
         }
       ]
     }
