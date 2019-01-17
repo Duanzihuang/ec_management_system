@@ -109,6 +109,7 @@
           <el-button
             type="success"
             plain
+            @click="dialogVisible4AddStaticProperty=true"
           >添加静态属性</el-button>
           <el-table
             border
@@ -141,12 +142,14 @@
                     icon="el-icon-edit"
                     size="small"
                     type="primary"
+                    @click="updateStaticProperty(scope.row.attr_id)"
                     plain
                   ></el-button>
                   <el-button
                     icon="el-icon-delete"
                     size="small"
                     type="danger"
+                    @click="deleteStaticProperty(scope.row.attr_id)"
                     plain
                   ></el-button>
                 </div>
@@ -216,6 +219,78 @@
         >确 定</el-button>
       </span>
     </el-dialog>
+    <!-- 添加静态属性 -->
+    <el-dialog
+      title="添加属性"
+      :visible.sync="dialogVisible4AddStaticProperty"
+      width="50%"
+    >
+      <el-form
+        :model="staticPropertyObj"
+        :rules="rules"
+        ref="addStaticPropertyRef"
+        label-width="100px"
+      >
+        <el-form-item
+          label="属性名称"
+          prop="attr_name"
+        >
+          <el-input v-model="staticPropertyObj.attr_name"></el-input>
+        </el-form-item>
+        <el-form-item
+          label="属性值"
+          prop="attr_vals"
+        >
+          <el-input v-model="staticPropertyObj.attr_vals"></el-input>
+        </el-form-item>
+      </el-form>
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button @click="dialogVisible4AddStaticProperty = false">取 消</el-button>
+        <el-button
+          type="primary"
+          @click="submitAddStaticProperty"
+        >确 定</el-button>
+      </span>
+    </el-dialog>
+    <!-- 修改静态属性 -->
+    <el-dialog
+      title="修改属性"
+      :visible.sync="dialogVisible4EditStaticProperty"
+      width="50%"
+    >
+      <el-form
+        :model="staticPropertyObj"
+        :rules="rules"
+        ref="editStaticPropertyRef"
+        label-width="100px"
+      >
+        <el-form-item
+          label="属性名称"
+          prop="attr_name"
+        >
+          <el-input v-model="staticPropertyObj.attr_name"></el-input>
+        </el-form-item>
+        <el-form-item
+          label="属性值"
+          prop="attr_vals"
+        >
+          <el-input v-model="staticPropertyObj.attr_vals"></el-input>
+        </el-form-item>
+      </el-form>
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button @click="dialogVisible4EditStaticProperty = false">取 消</el-button>
+        <el-button
+          type="primary"
+          @click="submitEditStaticProperty"
+        >确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -226,6 +301,9 @@ export default {
       rules: {
         attr_name: [
           { required: true, message: '请输入参数名称', trigger: 'blur' }
+        ],
+        attr_vals: [
+          { required: true, message: '请输入参数值', trigger: 'blur' }
         ]
       },
       categires: [], // 分类菜单，展示三级的
@@ -248,6 +326,12 @@ export default {
       dynamicParamsObj: {
         attr_id: '', //动态参数id
         attr_name: '' // 动态参数名称
+      },
+      dialogVisible4AddStaticProperty: false,
+      dialogVisible4EditStaticProperty: false,
+      staticPropertyObj: {
+        attr_name: '', //属性名称
+        attr_vals: '' //属性值
       }
     }
   },
@@ -480,6 +564,84 @@ export default {
 
       if (res.data.meta.status === 200) {
         this.getThreeLevelDynamicParams()
+
+        this.$message({
+          type: 'success',
+          message: res.data.meta.msg
+        })
+      }
+    },
+    // 添加静态属性
+    submitAddStaticProperty() {
+      this.$refs.addStaticPropertyRef.validate(async valid => {
+        const res = await this.$axios.post(
+          `categories/${this.cat_id}/attributes`,
+          {
+            attr_sel: 'only',
+            attr_name: this.staticPropertyObj.attr_name,
+            attr_vals: this.staticPropertyObj.attr_vals
+          }
+        )
+
+        if (res.data.meta.status === 201) {
+          this.dialogVisible4AddStaticProperty = false
+
+          this.getThreeLevelStaticProperties()
+
+          this.$message({
+            type: 'success',
+            message: res.data.meta.msg
+          })
+        }
+      })
+    },
+    // 修改静态属性
+    async updateStaticProperty(attr_id) {
+      this.staticPropertyObj.attr_id = attr_id
+
+      const res = await this.$axios.get(
+        `categories/${this.cat_id}/attributes/${attr_id}`
+      )
+
+      this.staticPropertyObj = res.data.data
+
+      this.dialogVisible4EditStaticProperty = true
+    },
+    submitEditStaticProperty() {
+      this.$refs.editStaticPropertyRef.validate(async valid => {
+        if (valid) {
+          const res = await this.$axios.put(
+            `categories/${this.cat_id}/attributes/${
+              this.staticPropertyObj.attr_id
+            }`,
+            {
+              attr_sel: 'only',
+              attr_name: this.staticPropertyObj.attr_name,
+              attr_vals: this.staticPropertyObj.attr_vals
+            }
+          )
+
+          if (res.data.meta.status === 200) {
+            this.dialogVisible4EditStaticProperty = false
+
+            this.getThreeLevelStaticProperties()
+
+            this.$message({
+              type: 'success',
+              message: res.data.meta.msg
+            })
+          }
+        }
+      })
+    },
+    // 删除静态属性
+    async deleteStaticProperty(attr_id) {
+      const res = await this.$axios.delete(
+        `categories/${this.cat_id}/attributes/${attr_id}`
+      )
+
+      if (res.data.meta.status === 200) {
+        this.getThreeLevelStaticProperties()
 
         this.$message({
           type: 'success',
