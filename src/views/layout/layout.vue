@@ -110,10 +110,10 @@ export default {
   },
   methods: {
     handleOpen() {
-      console.log('---handleOpen---')
+      // console.log('---handleOpen---')
     },
     handleClose() {
-      console.log('---handleClose---')
+      // console.log('---handleClose---')
     },
     // 打开和关闭菜单按钮
     toggleMenu() {

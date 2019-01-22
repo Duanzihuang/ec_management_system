@@ -115,7 +115,6 @@
             :on-success="handleSuccess"
             :on-preview="handlePreview"
             :on-remove="handleRemove"
-            :file-list="pictures"
             class="upload-demo"
             list-type="picture"
           >
@@ -137,7 +136,10 @@
     <!-- 3.0 底部菜单按钮 -->
     <div class="footer">
       <el-button @click="$router.go(-1)">取消</el-button>
-      <el-button type="primary">确定</el-button>
+      <el-button
+        @click="addGoods"
+        type="primary"
+      >确定</el-button>
     </div>
     <!-- 4.0 图片预览对话框 -->
     <el-dialog
@@ -186,16 +188,15 @@ export default {
       },
       previewImg: '', //图片预览地址
       dialogVisibleForPreview: false, //图片预览地址
-      pictures: [], //存放上传成功及删除之后的图片对象数组
       goodsObj: {
         goods_name: '', //商品名称
         goods_cat: '', //商品分类
         goods_price: '', //商品价格
         goods_number: '', //商品数量
-        goods_introduce: '', //商品介绍
+        goods_introduce: '好商品', //商品介绍
         is_promote: 0, //是否促销
-        pics: {}, //上传的图片临时路径（对象）
-        attrs: {} //商品的参数（数组）
+        pics: [], //上传的图片临时路径（数组）
+        attrs: [] //商品的参数（数组）
       }
     }
   },
@@ -219,6 +220,9 @@ export default {
         this.$message.error('请选择三级分类')
         return
       }
+
+      // 添加商品分类
+      this.goodsObj.goods_cat = val.join(',')
 
       this.cat_id = val[val.length - 1]
     },
@@ -270,7 +274,7 @@ export default {
     // 图片上传相关
     // 上传成功
     handleSuccess(response, file, fileList) {
-      this.pictures.push(response.data)
+      this.goodsObj.pics.push(response.data)
     },
     handlePreview(file) {
       // 设置预览图片的url
@@ -282,7 +286,7 @@ export default {
       let dIndex = -1
       // some() 方法用于检测数组中的元素是否满足指定条件（函数提供）。
       // 如果有一个元素满足条件，则表达式返回true , 剩余的元素不会再执行检测。
-      this.pictures.some((item, index) => {
+      this.goodsObj.pics.some((item, index) => {
         if (file.url === item.url) {
           dIndex = index
 
@@ -290,7 +294,32 @@ export default {
         }
       })
 
-      this.pictures.splice(dIndex, 1)
+      this.goodsObj.pics.splice(dIndex, 1)
+    },
+    // 添加商品
+    addGoods() {
+      this.$refs.goodsForm.validate(async valid => {
+        if (valid) {
+          // 准备好数据
+          if(this.dparams.length > 0){
+            this.goodsObj.attrs = [...this.dparams,...this.sproperties]
+          }
+
+          const res = await this.$axios.post(`goods`, this.goodsObj)
+          console.log(res.data)
+          if (res.data.meta.status === 201) {
+            this.$message({
+              type: 'success',
+              message: res.data.meta.msg
+            })
+
+            // 跳转到商品列表
+            this.$router.push({name:'goodslist'})
+          } else {
+            this.$message.error(res.data.meta.msg);
+          }
+        }
+      })
     }
   }
 }

@@ -18,4 +18,13 @@ body {
 #app {
   height: 100%;
 }
+.el-breadcrumb {
+  background-color: #d3dce6;
+  height: 50px;
+  line-height: 50px !important;
+  padding-left: 10px;
+}
+.search {
+  width: 300px !important;
+}
 </style>
