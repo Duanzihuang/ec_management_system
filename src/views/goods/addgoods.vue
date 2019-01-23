@@ -129,7 +129,11 @@
             >只能上传jpg/png文件，且不超过500kb</div>
           </el-upload>
         </el-tab-pane>
-        <el-tab-pane label="商品内容">商品内容</el-tab-pane>
+        <el-tab-pane label="商品内容">
+          <quill-editor v-model="goodsObj.goods_introduce"
+                ref="myQuillEditor">
+          </quill-editor>
+        </el-tab-pane>
 
       </el-tabs>
     </el-form>
@@ -155,7 +159,11 @@
 </template>
 
 <script>
+import { quillEditor } from 'vue-quill-editor'
 export default {
+  components: {
+    quillEditor
+  },
   data() {
     return {
       // 校验规则
@@ -193,7 +201,7 @@ export default {
         goods_cat: '', //商品分类
         goods_price: '', //商品价格
         goods_number: '', //商品数量
-        goods_introduce: '好商品', //商品介绍
+        goods_introduce: '<h2>好商品</h2>', //商品介绍
         is_promote: 0, //是否促销
         pics: [], //上传的图片临时路径（数组）
         attrs: [] //商品的参数（数组）
@@ -306,7 +314,6 @@ export default {
           }
 
           const res = await this.$axios.post(`goods`, this.goodsObj)
-          console.log(res.data)
           if (res.data.meta.status === 201) {
             this.$message({
               type: 'success',
@@ -346,5 +353,8 @@ export default {
 .el-input {
   height: 20px;
   width: 600px;
+}
+.quill-editor{
+  height: 400px;
 }
 </style>
