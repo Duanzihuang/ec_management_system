@@ -83,7 +83,7 @@ const router = new Router({
               component: addgoods
             },
             {
-              path: 'eidtgoods',
+              path: 'editgoods',
               component: editgoods
             }
           ]

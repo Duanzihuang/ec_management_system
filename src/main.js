@@ -49,7 +49,7 @@ axios.interceptors.response.use(function (response) {
   // 对响应错误做点什么
   return Promise.reject(error);
 })
-axios.defaults.baseURL = 'http://huangjiangjun.top:8888/api/private/v1/'
+axios.defaults.baseURL = 'http://127.0.0.1:8888/api/private/v1/'
 Vue.prototype.$axios = axios
 
 // 测试

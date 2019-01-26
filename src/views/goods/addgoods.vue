@@ -110,7 +110,7 @@
         </el-tab-pane>
         <el-tab-pane label="商品图片">
           <el-upload
-            action="http://huangjiangjun.top:8888/api/private/v1/upload"
+            action="http://127.0.0.1:8888/api/private/v1/upload"
             :headers="headers"
             :on-success="handleSuccess"
             :on-preview="handlePreview"
@@ -159,6 +159,7 @@
 </template>
 
 <script>
+// 导入富文本插件
 import { quillEditor } from 'vue-quill-editor'
 export default {
   components: {
@@ -181,7 +182,6 @@ export default {
           { required: true, message: '请输入商品分类', trigger: 'blur' }
         ]
       },
-      // 要提交给服务器的数据
       options: [],
       props: {
         label: 'cat_name',
@@ -196,6 +196,7 @@ export default {
       },
       previewImg: '', //图片预览地址
       dialogVisibleForPreview: false, //图片预览地址
+      // 要提交给服务器的数据
       goodsObj: {
         goods_name: '', //商品名称
         goods_cat: '', //商品分类

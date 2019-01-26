@@ -73,6 +73,7 @@
           <el-button
             class="el-icon-edit"
             size="small"
+            @click="editGoods(scope.row.goods_id)"
             type="primary"
             plain
           ></el-button>
@@ -135,6 +136,10 @@ export default {
     addGoods() {
       // this.$router.push({path:'/layout/goods/addgoods'})
       this.$router.push({ name: 'addgoods' })
+    },
+    // 修改商品
+    editGoods(goods_id){
+      this.$router.push(`/layout/goods/editgoods?goods_id=${goods_id}`)
     },
     // 状态格式化
     stateFormatter(goods, column) {
