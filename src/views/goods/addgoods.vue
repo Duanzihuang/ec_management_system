@@ -110,7 +110,7 @@
         </el-tab-pane>
         <el-tab-pane label="商品图片">
           <el-upload
-            action="http://huangjiangjun.top:8888/api/private/v1/upload"
+            action="http://127.0.0.1:8888/api/private/v1/upload"
             :headers="headers"
             :on-success="handleSuccess"
             :on-preview="handlePreview"
@@ -129,7 +129,11 @@
             >只能上传jpg/png文件，且不超过500kb</div>
           </el-upload>
         </el-tab-pane>
-        <el-tab-pane label="商品内容">商品内容</el-tab-pane>
+        <el-tab-pane label="商品内容">
+          <quill-editor v-model="goodsObj.goods_introduce"
+                ref="myQuillEditor">
+          </quill-editor>
+        </el-tab-pane>
 
       </el-tabs>
     </el-form>
@@ -155,7 +159,12 @@
 </template>
 
 <script>
+// 导入富文本插件
+import { quillEditor } from 'vue-quill-editor'
 export default {
+  components: {
+    quillEditor
+  },
   data() {
     return {
       // 校验规则
@@ -173,7 +182,6 @@ export default {
           { required: true, message: '请输入商品分类', trigger: 'blur' }
         ]
       },
-      // 要提交给服务器的数据
       options: [],
       props: {
         label: 'cat_name',
@@ -188,12 +196,13 @@ export default {
       },
       previewImg: '', //图片预览地址
       dialogVisibleForPreview: false, //图片预览地址
+      // 要提交给服务器的数据
       goodsObj: {
         goods_name: '', //商品名称
         goods_cat: '', //商品分类
         goods_price: '', //商品价格
         goods_number: '', //商品数量
-        goods_introduce: '好商品', //商品介绍
+        goods_introduce: '<h2>好商品</h2>', //商品介绍
         is_promote: 0, //是否促销
         pics: [], //上传的图片临时路径（数组）
         attrs: [] //商品的参数（数组）
@@ -274,6 +283,7 @@ export default {
     // 图片上传相关
     // 上传成功
     handleSuccess(response, file, fileList) {
+      response.data.pic = response.data.tmp_path
       this.goodsObj.pics.push(response.data)
     },
     handlePreview(file) {
@@ -306,7 +316,6 @@ export default {
           }
 
           const res = await this.$axios.post(`goods`, this.goodsObj)
-          console.log(res.data)
           if (res.data.meta.status === 201) {
             this.$message({
               type: 'success',
@@ -346,5 +355,8 @@ export default {
 .el-input {
   height: 20px;
   width: 600px;
+}
+.quill-editor{
+  height: 400px;
 }
 </style>

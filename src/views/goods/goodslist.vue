@@ -73,12 +73,14 @@
           <el-button
             class="el-icon-edit"
             size="small"
+            @click="editGoods(scope.row.goods_id)"
             type="primary"
             plain
           ></el-button>
           <el-button
             class="el-icon-delete"
             size="small"
+            @click="deleteGoods(scope.row.goods_id)"
             type="danger"
             plain
           ></el-button>
@@ -135,6 +137,31 @@ export default {
     addGoods() {
       // this.$router.push({path:'/layout/goods/addgoods'})
       this.$router.push({ name: 'addgoods' })
+    },
+    // 修改商品
+    editGoods(goods_id){
+      this.$router.push(`/layout/goods/editgoods?goods_id=${goods_id}`)
+    },
+    // 删除商品
+    deleteGoods(goods_id){
+      this.$confirm('确定删除该商品吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(async () => {
+          const res = await this.$axios.delete(`goods/${goods_id}`)
+          if(res.data.meta.status === 200){
+            this.$message({
+              message: res.data.meta.msg,
+              type: 'success'
+            })
+
+            // 重新刷新页面
+            this.getGoodsListData()
+          }
+        }).catch(() => {
+
+        })
     },
     // 状态格式化
     stateFormatter(goods, column) {

@@ -6,6 +6,11 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(ElementUI)
 
+// 导入富文本编辑器样式
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+
 import BaiduMap from 'vue-baidu-map'
 Vue.use(BaiduMap, {
   // ak 是在百度地图开发者平台申请的密钥 详见 http://lbsyun.baidu.com/apiconsole/key */
@@ -44,7 +49,9 @@ axios.interceptors.response.use(function (response) {
   // 对响应错误做点什么
   return Promise.reject(error);
 })
-axios.defaults.baseURL = 'http://huangjiangjun.top:8888/api/private/v1/'
+// 开发环境
+axios.defaults.baseURL = 'http://127.0.0.1:8888/api/private/v1/'
+
 Vue.prototype.$axios = axios
 
 // 测试
