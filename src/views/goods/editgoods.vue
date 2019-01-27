@@ -118,6 +118,7 @@
             :on-remove="handleRemove"
             class="upload-demo"
             list-type="picture"
+            :file-list="fileList"
           >
             <el-button
               type="success"
@@ -190,6 +191,7 @@ export default {
         children: 'children'
       },
       cat_id: null, //分类id
+      fileList:[],//上传文件的列表
       goods_cat_array:[], //商品分类数组
       dparams: [], //动态参数数组
       sproperties: [], //静态属性数组
@@ -218,6 +220,16 @@ export default {
       // 设置分类的默认选中项
       // res.data.data.goods_cat = [res.data.data.cat_one_id,res.data.data.cat_two_id,res.data.data.cat_three_id]
       this.goods_cat_array = [res.data.data.cat_one_id,res.data.data.cat_two_id,res.data.data.cat_three_id]
+
+      // 已上传图片列表
+      if (res.data.data.pics){
+        res.data.data.pics.forEach((item,index) => {
+          item.url = item.pics_mid_url
+          item.name = `第${index+1}张`
+        })
+        this.fileList = res.data.data.pics
+      }
+
       // 赋值商品数据
       this.goodsObj = res.data.data
     },
@@ -297,7 +309,7 @@ export default {
           this.dparams = this.goodsObj.attrs.filter(item=>{
             return item.attr_sel === 'many'
           })
-          console.log(this.dparams)
+          // console.log(this.dparams)
 
           this.dparams.forEach(item => {
             // console.log(item.attr_vals)
@@ -327,11 +339,18 @@ export default {
     // 图片上传相关
     // 上传成功
     handleSuccess(response, file, fileList) {
+      response.data.pic = response.data.tmp_path
       this.goodsObj.pics.push(response.data)
+
+      // 重新赋值
+      this.fileList = this.goodsObj.pics
+      this.fileList.forEach((item,index) => {
+          item.name = `第${index+1}张`
+      })
     },
     handlePreview(file) {
       // 设置预览图片的url
-      this.previewImg = file.response.data.url
+      this.previewImg = file.url
       // 展示出来
       this.dialogVisibleForPreview = true
     },

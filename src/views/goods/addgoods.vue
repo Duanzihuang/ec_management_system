@@ -283,6 +283,7 @@ export default {
     // 图片上传相关
     // 上传成功
     handleSuccess(response, file, fileList) {
+      response.data.pic = response.data.tmp_path
       this.goodsObj.pics.push(response.data)
     },
     handlePreview(file) {
