@@ -7,7 +7,8 @@
     <el-table-column v-for="(column, index) in columns" :width="column.width" :key="index"
       :label="column.label">
       <template slot-scope="scope">
-        <span v-if="spaceIconShow(index)" :key='item' v-for="item in scope.row._level" class="ms-tree-space"></span>
+        <!-- <span v-if="spaceIconShow(index)" :key='index' v-for="(item,index) in scope.row._level" class="ms-tree-space"></span> -->
+        <span :key='item' v-for="item in scope.row._level" :class="index===0?'ms-tree-space':''"></span>
         <el-button type="success" plain size="mini" round v-if="toggleIconShow(index,scope.row)" @click="toggle(scope.$index)">
           <i v-if="!scope.row._expanded" class="el-icon-plus" aria-hidden="true"></i>
           <i v-if="scope.row._expanded" class="el-icon-minus" aria-hidden="true"></i>
@@ -15,22 +16,26 @@
         <el-button size="mini" disabled round v-else-if="index===0">
           <i class="el-icon-minus"></i>
         </el-button>
-        <span v-else-if="index===0" class="ms-tree-space"></span>
+        <!-- <span v-else-if="index===0" class="ms-tree-space"></span> -->
         {{scope.row[column.prop]}}
       </template>
     </el-table-column>
     <el-table-column label="操作" v-if="treeType === 'normal'" width="160">
       <template slot-scope="scope">
+        <!--
         <el-button plain title='修改商品分类'  type="primary" size="small" @click="getCateInfoById(scope.row)" icon="el-icon-edit"></el-button>
         <el-button plain title='删除商品分类'  type="danger" size="small" @click="deleteCategory(scope.row)" icon="el-icon-delete"></el-button>
+        -->
+        <slot :row="scope.row" :column="scope.column" :$index="scope.$index"></slot>
       </template>
     </el-table-column>
   </el-table>
 </template>
 <script>
 export default {
-  name: 'tree-grid',
+  name: 'dzh-tree-grid',
   props: {
+    // 是否正在加载中
     loading:{
       type: Boolean,
       default:false
@@ -41,6 +46,7 @@ export default {
         return true
       }
     },
+    // 要显示的列
     columns: {
       type: Array,
       default: function () {

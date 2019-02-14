@@ -3,11 +3,12 @@
     <el-row>
       <el-col :span="24">
         <!-- 面包屑 -->
-        <el-breadcrumb separator-class="el-icon-arrow-right">
+        <!-- <el-breadcrumb separator-class="el-icon-arrow-right">
           <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
           <el-breadcrumb-item>用户管理</el-breadcrumb-item>
           <el-breadcrumb-item>用户列表</el-breadcrumb-item>
-        </el-breadcrumb>
+        </el-breadcrumb> -->
+        <MyBreadcrumb :paths="paths"></MyBreadcrumb>
       </el-col>
     </el-row>
     <!-- 搜索框和按钮 -->
@@ -257,7 +258,11 @@
 </template>
 
 <script>
+import MyBreadcrumb from '../../components/MyBreadcrumb'
 export default {
+  components:{
+    MyBreadcrumb
+  },
   data() {
     var checkEmail = (rule, value, callback) => {
       if (!value || value.trim().lenght === 0) {
@@ -286,6 +291,7 @@ export default {
       }
     }
     return {
+      paths:[{name:'用户管理'},{name:'用户列表',path:'/layout/users'}],
       query: '', //搜索关键字
       pagenum: 1, //当前页码
       pagesize: 5, //每页显示条数

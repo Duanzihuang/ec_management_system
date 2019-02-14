@@ -1,11 +1,12 @@
 <template>
   <div>
     <!-- 1.0 面包屑导航 -->
-    <el-breadcrumb separator-class="el-icon-arrow-right">
+    <!-- <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>权限管理</el-breadcrumb-item>
       <el-breadcrumb-item>权限列表</el-breadcrumb-item>
-    </el-breadcrumb>
+    </el-breadcrumb> -->
+    <MyBreadcrumb :paths="paths"></MyBreadcrumb>
     <!-- 2.0 权限列表表格 -->
     <el-table
       :data="rightsList"
@@ -49,10 +50,15 @@
 </template>
 
 <script>
+import MyBreadcrumb from '../../components/MyBreadcrumb'
 export default {
+  components:{
+    MyBreadcrumb
+  },
   data() {
     return {
-      rightsList: []
+      rightsList: [],
+      paths:[{name:'权限管理'},{name:'权限列表'}]
     }
   },
   // 过滤器
@@ -85,10 +91,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.el-breadcrumb {
-  height: 50px;
-  line-height: 50px;
-  padding-left: 10px;
-  background-color: #d3dce6;
-}
+// .el-breadcrumb {
+//   height: 50px;
+//   line-height: 50px;
+//   padding-left: 10px;
+//   background-color: #d3dce6;
+// }
 </style>

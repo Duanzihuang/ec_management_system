@@ -15,13 +15,50 @@
       >添加分类</el-button>
     </div>
     <!-- 3.0 树形表格 -->
+    <dzh-tree-grid
+      :columns="columns"
+      :loading="loading"
+      :dataSource="categories"
+    >
+      <template slot-scope="scope">
+        <el-button plain title='修改商品分类'  type="primary" @click="editCategory(scope.row)" size="small" icon="el-icon-edit"></el-button>
+        <el-button plain title='删除商品分类'  @click="deleteCategory(scope.row.cat_id)" type="danger" size="small" icon="el-icon-delete"></el-button>
+      </template>
+    </dzh-tree-grid>
+    <!--
     <tree-grid
       :columns="columns"
       :loading="loading"
       :dataSource="categories"
       @showForm="editCategory"
       @deleteCate="deleteCategory"
-    ></tree-grid>
+    >
+      <template slot-scope="scope">
+        <el-button plain title='修改商品分类'  type="primary" @click="editCategory(scope.row)" size="small" icon="el-icon-edit"></el-button>
+        <el-button plain title='删除商品分类'  type="danger" size="small" icon="el-icon-delete"></el-button>
+      </template>
+    </tree-grid>
+    -->
+    <!--
+    <el-table :loading="loading" :data="categories" border>
+      <el-tree-grid
+          prop="cat_name"
+          label="分类名称"
+          treeKey="cat_id"
+          parentKey="cat_pid"
+          levelKey="cat_level"
+          childKey="children"
+          :indentSize="30"></el-tree-grid>
+      <el-table-column
+          prop="cat_level_name" label="级别" width="220"></el-table-column>
+      <el-table-column label="操作">
+        <template slot-scope="scope">
+          <el-button plain title='修改商品分类'  type="primary" @click="editCategory(scope.row)" size="small" icon="el-icon-edit"></el-button>
+          <el-button plain title='删除商品分类'  type="danger" size="small" icon="el-icon-delete"></el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    -->
     <!-- 分页条 -->
     <el-pagination
       @size-change="handleSizeChange"
@@ -106,11 +143,16 @@
 </template>
 
 <script>
-import TreeGrid from '../../components/TreeGrid'
+// import TreeGrid from '../../components/TreeGrid'
+// import ElTreeGrid from 'element-tree-grid'
+
+import DZHTreeGrid from 'dzh-tree-grid'
 
 export default {
   components: {
-    TreeGrid
+    // TreeGrid
+    // ElTreeGrid
+    "dzh-tree-grid":DZHTreeGrid
   },
   data() {
     return {
@@ -151,7 +193,8 @@ export default {
         // },
         {
           label: '级别',
-          prop: 'cat_level_name'
+          prop: 'cat_level_name',
+          // width: 500
         }
       ], //菜单列表
       pagenum: 1, //页码
