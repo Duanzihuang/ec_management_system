@@ -13,6 +13,7 @@ E-commerce background management system
 
 4、安装包
     npm i
+    
 5、运行
     npm run serve
 ```

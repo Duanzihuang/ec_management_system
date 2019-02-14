@@ -113,7 +113,7 @@
       :visible.sync="dialogVisible4Map"
       width="50%"
     >
-      <baidu-map class="map"></baidu-map>
+      <baidu-map class="map" :center="center" :zoom="zoom"></baidu-map>
       <span
         slot="footer"
         class="dialog-footer"
@@ -187,7 +187,11 @@ export default {
           value: '宝安区'
         }
       },
-      detailAddress: '' //详细地址
+      detailAddress: '', //详细地址
+      // 地图相关
+      // 参考 https://dafrok.github.io/vue-baidu-map/#/zh/start/usage
+      center: {lng: 114.06667, lat: 22.61667}, //中心点 包括经度和维度
+      zoom: 12 //缩放比例
     }
   },
   created() {

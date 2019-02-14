@@ -30,15 +30,19 @@
       >
       </el-table-column>
       <el-table-column
-        prop="level"
         label="层级"
         width="100"
       >
+        <template slot-scope="scope">
+          {{scope.row.level | filterLevel}}
+        </template>
+        <!--
         <template slot-scope="scope">
           <span v-if="scope.row.level==='0'">一级</span>
           <span v-else-if="scope.row.level==='1'">二级</span>
           <span v-else-if="scope.row.level==='2'">三级</span>
         </template>
+        -->
       </el-table-column>
     </el-table>
   </div>
@@ -51,6 +55,18 @@ export default {
       rightsList: []
     }
   },
+  // 过滤器
+  filters:{
+    filterLevel(input){
+      if (input === '0'){
+        return '一级'
+      } else if (input === '1'){
+        return '二级'
+      } else if (input === '2') {
+        return '三级'
+      }
+    }
+  },
   created() {
     this.getRightsListData()
   },
@@ -59,7 +75,11 @@ export default {
       const result = await this.$axios.get('rights/list')
 
       this.rightsList = result.data.data
-    }
+    },
+    // filterHandler(value, row, column) {
+    //     console.log(value)
+    //     return "好多级呀"
+    // }
   }
 }
 </script>

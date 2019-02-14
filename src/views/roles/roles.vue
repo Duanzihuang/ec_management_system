@@ -22,7 +22,6 @@
           <el-row
             v-for="item in scope.row.children"
             :key="item.id"
-            closable
           >
             <!-- 一级权限 -->
             <el-col :span="3">

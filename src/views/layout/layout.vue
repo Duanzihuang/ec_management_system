@@ -48,7 +48,7 @@
       -->
       <el-menu
         router
-        default-active="/layout/user"
+        :default-active="activeRoute"
         :collapse="isCollapse"
         :unique-opened="true"
         class="el-menu-vertical-demo"
@@ -102,10 +102,14 @@ export default {
   data() {
     return {
       isCollapse: false, //是否折叠
-      menus: [] //菜单列表
+      menus: [], //菜单列表
+      activeRoute:'',//默认选中的路由路径
     }
   },
   created() {
+    // 设置默认选中的路径
+    this.activeRoute = this.$route.path
+
     this.getMenusData()
   },
   methods: {
