@@ -111,7 +111,7 @@
     </el-dialog>
     <!-- 编辑分类 -->
     <el-dialog
-      title="添加分类"
+      title="修改分类"
       :visible.sync="dialogVisible4Edit"
       width="50%"
     >
@@ -220,7 +220,7 @@ export default {
       // 赋值给数组
       this.categories = res.data.data.result
       // 赋值给分类的数组
-      this.options = res.data.data.result
+      // this.options = res.data.data.result
       // 赋值给总数
       this.total = res.data.data.total
     },
@@ -257,6 +257,7 @@ export default {
     },
     // 选择分类
     selectCategory(val) {
+      // console.log(val)
       if (val.length === 1) {
         this.addCategoryObj.cat_pid = val[0]
         this.addCategoryObj.cat_level = 1
@@ -290,7 +291,10 @@ export default {
     },
     // 编辑分类
     editCategory(category) {
-      this.editCategoryObj = category
+      this.editCategoryObj = {
+        cat_id:category.cat_id,
+        cat_name:category.cat_name
+      }
 
       this.dialogVisible4Edit = true
     },

@@ -50,19 +50,20 @@
                 <!-- 2.0 添加动态属性按钮 -->
                 <el-input
                   class="input-new-tag"
-                  v-if="inputVisible"
-                  v-model="inputValue"
+                  v-if="scope.row.inputVisible"
+                  v-model="scope.row.inputValue"
                   placeholder="请输入按回车添加"
                   ref="saveTagInput"
                   size="small"
                   @keyup.enter.native="handleInputConfirm(scope.row)"
+                  @blur="clearInputValue(scope.row)"
                 >
                 </el-input>
                 <el-button
                   v-else
                   class="button-new-tag"
                   size="small"
-                  @click="showInput"
+                  @click="showInput(scope.row)"
                 >+ 添加值</el-button>
               </template>
             </el-table-column>
@@ -319,8 +320,8 @@ export default {
       staticProperties: [], //静态属性
       staticLoading: false, //是否正在加载静态属性
       type: '', //此刻选中的类别【动态参数，静态属性】
-      inputVisible: false, //动态参数添加框，是否可见
-      inputValue: '', //动态参数添加的值，是否可见
+      // inputVisible: false, //动态参数添加框，是否可见
+      // inputValue: '', //动态参数添加的值，是否可见
       dialogVisible4AddDynamicParams: false,
       dialogVisible4EditDynamicParams: false,
       dynamicParamsObj: {
@@ -332,7 +333,8 @@ export default {
       staticPropertyObj: {
         attr_name: '', //属性名称
         attr_vals: '' //属性值
-      }
+      },
+      type:'dynamic' // 选择的类型
     }
   },
   created() {
@@ -387,6 +389,8 @@ export default {
         } else {
           item.attr_vals = item.attr_vals.split(',')
         }
+        item.inputVisible = false
+        item.inputValue = ''
       })
 
       // 赋值给三级分类的动态参数数组
@@ -444,26 +448,40 @@ export default {
       }
     },
     // 显示输入框
-    showInput() {
-      this.inputVisible = true
+    showInput(dparams) {
+      dparams.inputVisible = true
+      this.$nextTick(()=>{
+        // console.log(this.$refs.saveTagInput)
+        this.$refs.saveTagInput.focus()
+      })
+    },
+    // 清除掉input的值
+    clearInputValue(dparams){
+      dparams.inputValue = ''
+      dparams.inputVisible = false
     },
     // 动态添加值
     handleInputConfirm(dparams) {
-      if (this.inputValue.trim().length === 0) {
+      if (dparams.inputValue.trim().length === 0) {
         this.$message({
           type: 'warning',
           message: '请输入内容哦~'
         })
+        // this.inputVisible = false
         return
       }
 
       // 隐藏 input
-      this.inputVisible = false
+      dparams.inputVisible = false
 
       // 更改 attr中attr_vals的值
-      dparams.attr_vals.push(this.inputValue)
+      dparams.attr_vals.push(dparams.inputValue)
 
+      // 更新动态参数的内容
       this.updateDynamicParam(dparams)
+
+      // 重置为空
+      dparams.inputValue = ''
     },
     // 删除动态参数
     deleteDynamicAttr(index, dparams) {

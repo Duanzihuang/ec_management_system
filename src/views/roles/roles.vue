@@ -424,6 +424,7 @@ export default {
 }
 .el-tag {
   margin-left: 5px;
+  margin-top: 5px;
 }
 .authlist {
   border-top: solid 1px #d3dce6;
