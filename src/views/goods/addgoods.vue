@@ -4,7 +4,7 @@
     <!-- 1.0步骤条 -->
     <el-steps
       :space="200"
-      :active="1"
+      :active="active"
       finish-status="success"
     >
       <el-step title="步骤 1"></el-step>
@@ -13,7 +13,7 @@
       <el-step title="步骤 4"></el-step>
       <el-step title="步骤 5"></el-step>
     </el-steps>
-    <!-- 2.0 左侧tabl栏目 -->
+    <!-- 2.0 左侧tab栏目 -->
     <el-form
       :model="goodsObj"
       :rules="rules"
@@ -22,9 +22,10 @@
     >
       <el-tabs
         @tab-click="tabClick"
+        value="base"
         tab-position="left"
       >
-        <el-tab-pane label="基本信息">
+        <el-tab-pane name="base" label="基本信息">
           <el-form-item
             label="商品名称"
             prop="goods_name"
@@ -108,7 +109,7 @@
             <el-input v-model="item.attr_vals"></el-input>
           </el-form-item>
         </el-tab-pane>
-        <el-tab-pane label="商品图片">
+        <el-tab-pane name="picture" label="商品图片">
           <el-upload
             action="http://127.0.0.1:8888/api/private/v1/upload"
             :headers="headers"
@@ -129,7 +130,7 @@
             >只能上传jpg/png文件，且不超过500kb</div>
           </el-upload>
         </el-tab-pane>
-        <el-tab-pane label="商品内容">
+        <el-tab-pane name="content" label="商品内容">
           <quill-editor v-model="goodsObj.goods_introduce"
                 ref="myQuillEditor">
           </quill-editor>
@@ -167,6 +168,7 @@ export default {
   },
   data() {
     return {
+      active:0, //当前步骤条所处的索引
       // 校验规则
       rules: {
         goods_name: [
@@ -189,8 +191,8 @@ export default {
         children: 'children'
       },
       cat_id: null, //分类id
-      dparams: {}, //动态参数
-      sproperties: {}, //静态属性
+      dparams: [], //动态参数
+      sproperties: [], //静态属性
       headers: {
         Authorization: localStorage.getItem('mytoken')
       },
@@ -270,6 +272,30 @@ export default {
     //   attr_vals.splice(index, 1)
     // },
     tabClick(val) {
+      switch (val.name) {
+        case 'base':
+          this.active = 0
+          break;
+
+        case 'param':
+          this.active = 1
+          break;
+
+        case 'property':
+          this.active = 2
+          break;
+
+        case 'picture':
+          this.active = 3
+          break;
+
+        case 'content':
+          this.active = 4
+          break;
+
+        default:
+          break;
+      }
       if (val.name === 'param' || val.name === 'property') {
         // 加载商品参数 或 商品属性
         if (!this.cat_id) {
@@ -312,8 +338,12 @@ export default {
         if (valid) {
           // 准备好数据
           if(this.dparams.length > 0){
-            this.goodsObj.attrs = [...this.dparams,...this.sproperties]
+            // this.goodsObj.attrs = [...this.dparams,...this.sproperties]
           }
+
+          this.goodsObj.attrs = this.dparams.concat(this.sproperties)
+
+          console.log(this.goodsObj)
 
           const res = await this.$axios.post(`goods`, this.goodsObj)
           if (res.data.meta.status === 201) {

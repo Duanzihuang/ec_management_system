@@ -1,0 +1,1 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["welcome"],{c796:function(e,n,l){"use strict";l.r(n);var t=function(){var e=this,n=e.$createElement,l=e._self._c||n;return l("div",[e._v("\n  欢迎使用\n")])},c=[],o=l("2877"),u={},i=Object(o["a"])(u,t,c,!1,null,null,null);i.options.__file="welcome.vue";n["default"]=i.exports}}]);

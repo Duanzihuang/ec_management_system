@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
+/**
 import login from '../views/account/login'
 import layout from '../views/layout/layout'
 import welcome from '@/views/welcome/welcome'
@@ -14,12 +16,28 @@ import addgoods from '../views/goods/addgoods'
 import editgoods from '../views/goods/editgoods'
 import orders from '../views/order/Orders'
 import reports from '../views/reports/reports'
+*/
+
+const login = () => import(/* webpackChunkName: "login" */'../views/account/login')
+const layout = () => import(/* webpackChunkName: "layout" */'../views/layout/layout')
+const welcome = () => import(/* webpackChunkName: "welcome" */'../views/welcome/welcome')
+const user = () => import(/* webpackChunkName: "user" */'../views/user/user')
+const rights = () => import(/* webpackChunkName: "rights" */'../views/rights/rights')
+const roles = () => import(/* webpackChunkName: "roles" */'../views/roles/roles')
+const category = () => import(/* webpackChunkName: "category" */'../views/goods/category')
+const params = () => import(/* webpackChunkName: "params" */'../views/goods/params')
+const goods = () => import(/* webpackChunkName: "goods" */'../views/goods/goods')
+const goodslist = () => import(/* webpackChunkName: "goodslist" */'../views/goods/goodslist')
+const addgoods = () => import(/* webpackChunkName: "addgoods" */'../views/goods/addgoods')
+const editgoods = () => import(/* webpackChunkName: "editgoods" */'../views/goods/editgoods')
+const orders = () => import(/* webpackChunkName: "orders" */'../views/order/Orders')
+const reports = () => import(/* webpackChunkName: "reports" */'../views/reports/reports')
 
 Vue.use(Router)
 
 const router = new Router({
-  mode: 'history',
-  base: process.env.BASE_URL,
+  // mode: 'history',
+  // base: process.env.BASE_URL,
   routes: [
     {
       path: '/',

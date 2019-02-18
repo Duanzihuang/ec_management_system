@@ -2,9 +2,88 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
-Vue.use(ElementUI)
+// import ElementUI from 'element-ui'
+// import 'element-ui/lib/theme-chalk/index.css'
+// Vue.use(ElementUI)
+
+import {
+  Pagination,
+  Dialog,
+  Button,
+  Select,
+  Menu,
+  Submenu,
+  MenuItem,
+  Input,
+  Radio,
+  RadioGroup,
+  Checkbox,
+  CheckboxGroup,
+  Switch,
+  Option,
+  Table,
+  TableColumn,
+  Breadcrumb,
+  BreadcrumbItem,
+  Form,
+  FormItem,
+  Tabs,
+  TabPane,
+  Tag,
+  Tree,
+  Row,
+  Col,
+  Upload,
+  Steps,
+  Step,
+  Cascader,
+  MessageBox,
+  Message,
+  Container,
+  Header,
+  Aside,
+  Main,
+  Footer,
+} from 'element-ui';
+
+Vue.use(Pagination);
+Vue.use(Dialog);
+Vue.use(Menu);
+Vue.use(Submenu);
+Vue.use(MenuItem);
+Vue.use(Input);
+Vue.use(Radio);
+Vue.use(RadioGroup);
+Vue.use(Checkbox);
+Vue.use(CheckboxGroup);
+Vue.use(Switch);
+Vue.use(Select);
+Vue.use(Option);
+Vue.use(Button);
+Vue.use(Table);
+Vue.use(TableColumn);
+Vue.use(Breadcrumb);
+Vue.use(BreadcrumbItem);
+Vue.use(Form);
+Vue.use(FormItem);
+Vue.use(Tabs);
+Vue.use(TabPane);
+Vue.use(Tag);
+Vue.use(Tree);
+Vue.use(Row);
+Vue.use(Col);
+Vue.use(Upload);
+Vue.use(Steps);
+Vue.use(Step);
+Vue.use(Cascader);
+Vue.use(Container);
+Vue.use(Header);
+Vue.use(Aside);
+Vue.use(Main);
+Vue.use(Footer);
+
+Vue.prototype.$message = Message;
+Vue.prototype.$confirm = MessageBox.confirm;
 
 // 导入富文本编辑器样式
 import 'quill/dist/quill.core.css'

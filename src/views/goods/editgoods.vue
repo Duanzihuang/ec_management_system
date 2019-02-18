@@ -4,7 +4,7 @@
     <!-- 1.0步骤条 -->
     <el-steps
       :space="200"
-      :active="1"
+      :active="active"
       finish-status="success"
     >
       <el-step title="步骤 1"></el-step>
@@ -22,9 +22,10 @@
     >
       <el-tabs
         @tab-click="tabClick"
+        value="base"
         tab-position="left"
       >
-        <el-tab-pane label="基本信息">
+        <el-tab-pane name="base" label="基本信息">
           <el-form-item
             label="商品名称"
             prop="goods_name"
@@ -109,7 +110,7 @@
             <el-input v-model="item.attr_vals"></el-input>
           </el-form-item>
         </el-tab-pane>
-        <el-tab-pane label="商品图片">
+        <el-tab-pane name="picture" label="商品图片">
           <el-upload
             action="http://127.0.0.1:8888/api/private/v1/upload"
             :headers="headers"
@@ -131,7 +132,7 @@
             >只能上传jpg/png文件，且不超过500kb</div>
           </el-upload>
         </el-tab-pane>
-        <el-tab-pane label="商品内容">
+        <el-tab-pane name="content" label="商品内容">
           <quill-editor v-model="goodsObj.goods_introduce"
                 ref="myQuillEditor">
           </quill-editor>
@@ -169,6 +170,7 @@ export default {
   },
   data(){
     return {
+      active:0, //
       // 校验规则
       rules: {
         goods_name: [
@@ -292,6 +294,30 @@ export default {
     //   attr_vals.splice(index, 1)
     // },
     tabClick(val) {
+      switch (val.name) {
+        case 'base':
+          this.active = 0
+          break;
+
+        case 'param':
+          this.active = 1
+          break;
+
+        case 'property':
+          this.active = 2
+          break;
+
+        case 'picture':
+          this.active = 3
+          break;
+
+        case 'content':
+          this.active = 4
+          break;
+
+        default:
+          break;
+      }
       if (val.name === 'param' || val.name === 'property') {
         // 加载商品参数 或 商品属性
         if (!this.goodsObj.cat_id) {
@@ -303,21 +329,18 @@ export default {
         if (this.cat_id===this.goodsObj.cat_id) {
           // 给动态参数和静态属性赋值
 
-          if (this.dparams.length > 0 || this.sproperties.length > 0) return
-
-
+          // if (this.dparams.length > 0 || this.sproperties.length > 0) return
           this.dparams = this.goodsObj.attrs.filter(item=>{
             return item.attr_sel === 'many'
           })
-          // console.log(this.dparams)
 
           this.dparams.forEach(item => {
-            // console.log(item.attr_vals)
-            if (item.attr_vals && item.attr_vals.trim().length > 0) {
-              item.attr_vals = item.attr_vals.split(',')
-            } else {
-              item.attr_vals = []
-            }
+            // if (item.attr_vals && item.attr_vals.trim().length > 0) {
+              // item.attr_vals = item.attr_vals.split(',')
+              item.attr_vals = item.attr_value.split(',')
+            // } else {
+              // item.attr_vals = []
+            // }
           })
 
           this.sproperties = this.goodsObj.attrs.filter(item => {
@@ -326,9 +349,9 @@ export default {
 
           // 设置静态资源数组的值
           this.sproperties.forEach(item =>{
-            if(item.attr_vals.trim().length === 0){
+            // if(item.attr_vals && item.attr_vals.trim().length === 0){
               item.attr_vals = item.attr_value
-            }
+            // }
           })
         } else {
           // 分类id变了
@@ -374,8 +397,10 @@ export default {
         if (valid) {
           // 准备好数据
           if(this.dparams.length > 0){
-            this.goodsObj.attrs = [...this.dparams,...this.sproperties]
+            // this.goodsObj.attrs = [...this.dparams,...this.sproperties]
           }
+
+          this.goodsObj.attrs = this.dparams.concat(this.sproperties)
 
           // 商品分类
           // this.goodsObj.goods_cat = this.goodsObj.goods_cat.join(',')
