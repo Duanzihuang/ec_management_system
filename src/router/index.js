@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+Vue.use(Router)
 
 /**
 import login from '../views/account/login'
@@ -33,7 +34,14 @@ const editgoods = () => import(/* webpackChunkName: "editgoods" */'../views/good
 const orders = () => import(/* webpackChunkName: "orders" */'../views/order/Orders')
 const reports = () => import(/* webpackChunkName: "reports" */'../views/reports/reports')
 
-Vue.use(Router)
+// 测试vuex
+// const index = () => import(/* webpackChunkName: "index"*/'../test/vuex/components/index.vue')
+// const mygoodslist = () => import(/* webpackChunkName: "goodslist"*/'../test/vuex/components/goodslist.vue')
+// const goodscart = () => import(/* webpackChunkName: "goodscart"*/'../test/vuex/components/goodscart.vue')
+
+import index from '../test/vuex/components/index'
+import mygoodslist from '../test/vuex/components/goodslist'
+import goodscart from '../test/vuex/components/goodscart'
 
 const router = new Router({
   // mode: 'history',
@@ -47,6 +55,28 @@ const router = new Router({
       path: '/login',
       name: 'login',
       component: login
+    },
+    {
+      path: '/goods',
+      name: 'index',
+      component: index,
+      children:[
+        {
+          path: '',
+          name: 'goodslist',
+          component: mygoodslist
+        },
+        {
+          path: 'goodslist',
+          name: 'goodslist',
+          component: mygoodslist
+        },
+        {
+          path: 'goodscart',
+          name: 'goodscart',
+          component: goodscart
+        }
+      ]
     },
     {
       path: '/layout',
@@ -113,7 +143,7 @@ const router = new Router({
 
 // 导航守卫进行权限判断
 router.beforeEach((to, from, next) => {
-  if (to.path === '/login') {
+  if (to.path === '/login' || to.path==='/goods' || to.path === '/goods/goodslist' || to.path === '/goods/goodscart') {
     next()
   } else {
     if (localStorage.getItem('mytoken')) {

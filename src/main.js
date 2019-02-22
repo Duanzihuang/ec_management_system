@@ -44,46 +44,50 @@ import {
   Aside,
   Main,
   Footer,
-} from 'element-ui';
+  InputNumber,
+  Loading
+} from 'element-ui'
 
-Vue.use(Pagination);
-Vue.use(Dialog);
-Vue.use(Menu);
-Vue.use(Submenu);
-Vue.use(MenuItem);
-Vue.use(Input);
-Vue.use(Radio);
-Vue.use(RadioGroup);
-Vue.use(Checkbox);
-Vue.use(CheckboxGroup);
-Vue.use(Switch);
-Vue.use(Select);
-Vue.use(Option);
-Vue.use(Button);
-Vue.use(Table);
-Vue.use(TableColumn);
-Vue.use(Breadcrumb);
-Vue.use(BreadcrumbItem);
-Vue.use(Form);
-Vue.use(FormItem);
-Vue.use(Tabs);
-Vue.use(TabPane);
-Vue.use(Tag);
-Vue.use(Tree);
-Vue.use(Row);
-Vue.use(Col);
-Vue.use(Upload);
-Vue.use(Steps);
-Vue.use(Step);
-Vue.use(Cascader);
-Vue.use(Container);
-Vue.use(Header);
-Vue.use(Aside);
-Vue.use(Main);
-Vue.use(Footer);
+Vue.use(Pagination)
+Vue.use(Dialog)
+Vue.use(Menu)
+Vue.use(Submenu)
+Vue.use(MenuItem)
+Vue.use(Input)
+Vue.use(Radio)
+Vue.use(RadioGroup)
+Vue.use(Checkbox)
+Vue.use(CheckboxGroup)
+Vue.use(Switch)
+Vue.use(Select)
+Vue.use(Option)
+Vue.use(Button)
+Vue.use(Table)
+Vue.use(TableColumn)
+Vue.use(Breadcrumb)
+Vue.use(BreadcrumbItem)
+Vue.use(Form)
+Vue.use(FormItem)
+Vue.use(Tabs)
+Vue.use(TabPane)
+Vue.use(Tag)
+Vue.use(Tree)
+Vue.use(Row)
+Vue.use(Col)
+Vue.use(Upload)
+Vue.use(Steps)
+Vue.use(Step)
+Vue.use(Cascader)
+Vue.use(Container)
+Vue.use(Header)
+Vue.use(Aside)
+Vue.use(Main)
+Vue.use(Footer)
+Vue.use(Loading.directive)
+Vue.use(InputNumber)
 
-Vue.prototype.$message = Message;
-Vue.prototype.$confirm = MessageBox.confirm;
+Vue.prototype.$message = Message
+Vue.prototype.$confirm = MessageBox.confirm
 
 // 导入富文本编辑器样式
 import 'quill/dist/quill.core.css'
@@ -115,27 +119,31 @@ axios.interceptors.request.use(
 
 // 响应拦截器
 // 添加响应拦截器
-axios.interceptors.response.use(function (response) {
-  // token无效了
-  if(response.data.meta.status === 400){
-    // 跳转到login中去
-    router.push('/login')
+axios.interceptors.response.use(
+  function(response) {
+    // token无效了
+    if (response.data.meta.status === 400) {
+      // 跳转到login中去
+      router.push('/login')
+    }
+    // console.log(response)
+    // 对响应数据做点什么
+    return response
+  },
+  function(error) {
+    // 对响应错误做点什么
+    return Promise.reject(error)
   }
-  // console.log(response)
-  // 对响应数据做点什么
-  return response;
-}, function (error) {
-  // 对响应错误做点什么
-  return Promise.reject(error);
-})
+)
 // 开发环境
-axios.defaults.baseURL = 'http://127.0.0.1:8888/api/private/v1/'
+axios.defaults.baseURL = 'http://39.108.131.40:8888/api/private/v1/'
 
 Vue.prototype.$axios = axios
 
 // 测试
 // import router from './router/test'
-import store from './store'
+// import store from './store'
+import store from './test/vuex/store/'
 
 new Vue({
   router,
